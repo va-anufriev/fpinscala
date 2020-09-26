@@ -1,5 +1,7 @@
 package fpinscala.datastructures
 
+import scala.annotation.tailrec
+
 sealed trait List[+A] // `List` data type, parameterized on a type, `A`
 case object Nil extends List[Nothing] // A `List` data constructor representing the empty list
 /* Another data constructor, representing nonempty lists. Note that `tail` is another `List[A]`,
@@ -55,17 +57,49 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(_, tail) => tail
   }
 
-  def setHead[A](l: List[A], h: A): List[A] = ???
+  def setHead[A](l: List[A], h: A): List[A] = l match {
+    case Nil => List(h)
+    case Cons(_, tail) => Cons(h, tail)
+  }
 
-  def drop[A](l: List[A], n: Int): List[A] = ???
+  @tailrec
+  def drop[A](l: List[A], n: Int): List[A] =
+    if (n <= 0) l
+    else l match {
+      case Nil => Nil
+      case Cons(_, tail) => drop(tail, n - 1)
+    }
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = ???
+  @tailrec
+  def dropWhile[A](l: List[A])(f: A => Boolean): List[A] = l match {
+    case Cons(head, tail) if (f(head)) => dropWhile(tail)(f)
+    case _ => l
+  }
 
-  def init[A](l: List[A]): List[A] = ???
+  def init[A](l: List[A]): List[A] = l match {
+    case Nil => Nil
+    case Cons(_, Nil) => Nil
+    case Cons(head, tail) => Cons(head, init(tail))
+  }
 
-  def length[A](l: List[A]): Int = ???
+  def length[A](l: List[A]): Int =
+    foldRight(l, 0)((_, acc) => acc + 1)
 
-  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = ???
+  @tailrec
+  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = l match {
+    case Nil => z
+    case Cons(head, tail) => foldLeft(tail, f(z, head))(f)
+  }
+
+  def sum3(xs: List[Int]): Int = foldLeft(xs, 0)(_ + _)
+
+  def product3(xs: List[Double]): Double = foldLeft(xs, 1.0)(_ * _)
+
+  def reverse[A](xs: List[A]): List[A] =
+    foldLeft(xs, List[A]())((acc, cur) => Cons(cur, acc))
+
+  def appendViaFold[A](l: List[A], r: List[A]): List[A] =
+    foldRight(l, r)((cur, acc) => Cons(cur, acc))
 
   def map[A,B](l: List[A])(f: A => B): List[B] = ???
 }
