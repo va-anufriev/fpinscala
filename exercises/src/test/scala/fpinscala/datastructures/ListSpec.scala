@@ -1,5 +1,6 @@
 package fpinscala.datastructures
 
+import fpinscala.datastructures.List.foldRight
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ListSpec extends AnyFlatSpec {
@@ -63,5 +64,21 @@ class ListSpec extends AnyFlatSpec {
     )
 
     assert(List.concat(xs) == List(1, 2, 3, 4, 5, 6))
+  }
+
+  it should "plus one" in {
+    def mapPlusOne(xs: List[Int]): List[Int] =
+      foldRight(xs, List[Int]())((cur, acc) => Cons(cur + 1, acc))
+
+    assert(mapPlusOne(xs) == List(2, 3, 4))
+  }
+
+  it should "from double to string" in {
+    def mapToString(xs: List[Double]): List[String] =
+      foldRight(xs, List[String]())((cur, acc) => Cons(cur.toString, acc))
+
+    val xs = List[Double](1.11, 2.22, 3.33)
+
+    assert(mapToString(xs) == List("1.11", "2.22", "3.33"))
   }
 }
