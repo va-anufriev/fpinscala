@@ -54,4 +54,14 @@ class ListSpec extends AnyFlatSpec {
   it should "append via fold" in {
     assert(List.appendViaFold(xs, List(4, 5)) == List(1, 2, 3, 4, 5))
   }
+
+  it should "concat" in {
+    val xs = List(
+      List(1, 2),
+      List(3, 4),
+      List(5, 6)
+    )
+
+    assert(List.concat(xs) == List(1, 2, 3, 4, 5, 6))
+  }
 }
