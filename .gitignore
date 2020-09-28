@@ -12,3 +12,7 @@ project.vim
 .metadata/
 *.iml
 .DS_Store
+.bloop
+.metals
+.vscode
+metals.sbt
