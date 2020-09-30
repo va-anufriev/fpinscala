@@ -75,10 +75,20 @@ class ListSpec extends AnyFlatSpec {
 
   it should "from double to string" in {
     def mapToString(xs: List[Double]): List[String] =
-      foldRight(xs, List[String]())((cur, acc) => Cons(cur.toString, acc))
+      foldRight(xs, List.empty[String])((cur, acc) => Cons(cur.toString, acc))
 
     val xs = List[Double](1.11, 2.22, 3.33)
 
     assert(mapToString(xs) == List("1.11", "2.22", "3.33"))
+  }
+
+  it should "map - x * x" in {
+    assert(List.map(xs)(x => x * x) == List(1, 4, 9))
+  }
+
+  it should "filter - remove odd numbers" in {
+    val xs = List(1, 2, 3, 4)
+
+    assert(List.filter(xs)(x => x % 2 != 0) == List(1, 3))
   }
 }

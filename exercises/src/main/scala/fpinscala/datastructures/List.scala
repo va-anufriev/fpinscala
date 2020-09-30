@@ -15,6 +15,8 @@ object List { // `List` companion object. Contains functions for creating and wo
     case Cons(x,xs) => x + sum(xs) // The sum of a list starting with `x` is `x` plus the sum of the rest of the list.
   }
 
+  def empty[A]: List[A] = List[A]()
+
   def product(ds: List[Double]): Double = ds match {
     case Nil => 1.0
     case Cons(0.0, _) => 0.0
@@ -101,8 +103,12 @@ object List { // `List` companion object. Contains functions for creating and wo
   def appendViaFold[A](l: List[A], r: List[A]): List[A] =
     foldRight(l, r)((cur, acc) => Cons(cur, acc))
 
-  def map[A,B](l: List[A])(f: A => B): List[B] = ???
+  def map[A,B](l: List[A])(f: A => B): List[B] =
+    foldRight(l, List.empty[B])((cur, acc) => Cons(f(cur), acc))
 
   def concat[A](xs: List[List[A]]): List[A] =
     List.foldLeft(xs, List[A]())((acc, cur) => List.append(acc, cur))
+
+  def filter[A](xs: List[A])(f: A => Boolean): List[A] =
+    List.foldRight(xs, List.empty[A])((cur, acc) => if (f(cur)) Cons(cur, acc) else acc)
 }
