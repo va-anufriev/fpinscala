@@ -17,4 +17,8 @@ class TreeSpec extends AnyFlatSpec {
   it should "count size" in {
     assert(Tree.size(tree) == 7)
   }
+
+  it should "find max value in Tree[Int]" in {
+    assert(Tree.maximum(tree) == 4)
+  }
 }
