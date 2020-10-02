@@ -91,4 +91,14 @@ class ListSpec extends AnyFlatSpec {
 
     assert(List.filter(xs)(x => x % 2 != 0) == List(1, 3))
   }
+
+  it should "flatMap - double values in list" in {
+    assert(List.flatMap(xs)(x => List(x, x)) == List(1, 1, 2, 2, 3, 3))
+  }
+
+  it should "filter - via flatMap" in {
+    val xs = List(1, 2, 3, 4)
+
+    assert(List.filterViaFlatMap(xs)(x => x % 2 != 0) == List(1, 3))
+  }
 }
