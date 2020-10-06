@@ -6,7 +6,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ListSpec extends AnyFlatSpec {
   val xs: List[Int] = List(1, 2, 3)
 
-
   it should "tail" in {
     assert(List.tail(xs) == List(2, 3))
   }
