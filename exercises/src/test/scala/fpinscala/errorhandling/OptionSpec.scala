@@ -29,4 +29,16 @@ class OptionSpec extends AnyFlatSpec {
   it should "filter None" in {
     assert(Option(4).filter(x => x == 666) == None)
   }
+
+  it should "flatMap Some" in {
+    assert(Option(4).flatMap(x => Option(x * x)) == Option(16))
+  }
+
+  it should "flatMap None" in {
+    assert(none.flatMap(x => Option(x * x)) == None)
+  }
+
+  it should "flatMap Some with f => None" in {
+    assert(Option(3).flatMap(_ => none) == None)
+  }
 }

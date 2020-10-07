@@ -16,7 +16,15 @@ sealed trait Option[+A] {
       case None => default
     }
 
-  def flatMap[B](f: A => Option[B]): Option[B] = ???
+  /** pattern matching version */
+  def flatMapPM[B](f: A => Option[B]): Option[B] =
+    this match {
+      case Some(get) => f(get)
+      case None => None
+    }
+
+  def flatMap[B](f: A => Option[B]): Option[B] =
+    map(f) getOrElse None
 
   def orElse[B>:A](ob: => Option[B]): Option[B] = ???
 
