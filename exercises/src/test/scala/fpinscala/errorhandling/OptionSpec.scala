@@ -53,4 +53,22 @@ class OptionSpec extends AnyFlatSpec {
   it should "orElse None" in {
     assert((none orElse Option(0)) == Option(0))
   }
+
+  it should "map2 - Some and Some is Some" in {
+    assert(
+      Option.map2[Int, Double, String](
+        a = Some(2),
+        b = Some(3.0)
+      )((a, b) => (a * b).toString) == Some("6.0")
+    )
+  }
+
+  it should "map2 - None and Some is None" in {
+    assert(
+      Option.map2[Int, Double, String](
+        a = none,
+        b = Some(2.0)
+      )((a, b) => (a * b).toString) == None
+    )
+  }
 }
