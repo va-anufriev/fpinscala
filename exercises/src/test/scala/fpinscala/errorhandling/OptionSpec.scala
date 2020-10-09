@@ -4,6 +4,10 @@ import org.scalatest.flatspec.AnyFlatSpec
 import scala.{Option => _, Some => _, None => _, Either => _, _}
 
 class OptionSpec extends AnyFlatSpec {
+  def tryParse[A](a: => A): Option[A] =
+    try Some(a)
+    catch { case e: Exception => None}
+
   val none: Option[Int] = None
 
   it should "map Some" in {
@@ -70,5 +74,21 @@ class OptionSpec extends AnyFlatSpec {
         b = Some(2.0)
       )((a, b) => (a * b).toString) == None
     )
+  }
+
+  it should "sequence - List of only Some[A]" in {
+    assert(Option.sequence(List(Some(1), Some(2), Some(3))) == Option(List(1, 2, 3)))
+  }
+
+  it should "sequence - List of Some[A] and None" in {
+    assert(Option.sequence(List(Some(1), None, Some(3))) == None)
+  }
+
+  it should "traverse - success" in {
+    assert(Option.traverse[String, Int](List("1", "2"))(x => tryParse(x.toInt)) == Option(List(1, 2)))
+  }
+
+  it should "traverse - failure" in {
+    assert( Option.traverse[String, Int](List("1", "boom"))(x => tryParse(x.toInt)) == None)
   }
 }
