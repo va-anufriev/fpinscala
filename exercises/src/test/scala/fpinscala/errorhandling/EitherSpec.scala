@@ -45,4 +45,47 @@ class EitherSpec extends AnyFlatSpec {
     val result = Right(4).map2[Int, Double, Double](Right(3.0))((a, b) => a * b)
     assert(result == Right(12.0))
   }
+
+  it should "sequence - List of Right is Right" in {
+    assert(
+      Either.sequence(
+        List(
+          Right(1),
+          Right(2),
+          Right(3),
+        )
+      ) == Right(List(1, 2, 3)))
+  }
+
+  it should "sequence - List of Right and Left is Left" in {
+    assert(
+      Either.sequence(
+        List(
+          Right(1),
+          left,
+          Right(3),
+        )
+      ) match {
+        case Left(_) => true
+        case Right(_) => false
+      })
+  }
+
+  it should "traverse - success" in {
+    assert(
+      Either.traverse[Exception, Int, Int](
+        List(1, 2, 3)
+      )(x => Right(x * x)) == Right(List(1, 4, 9))
+    )
+  }
+
+  it should "traverse - failure" in {
+    assert(
+      Either.traverse[Exception, Int, Int](
+        List(1, 2, 3)
+      )(_ => left) match {
+        case Right(_) => false
+        case Left(_) => true
+      })
+  }
 }
