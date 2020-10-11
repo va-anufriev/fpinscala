@@ -20,4 +20,8 @@ class StreamSpec extends AnyFlatSpec {
   it should "take" in {
     assert(xs.take(2).toList == List(1, 2))
   }
+
+  it should "takeWhile" in {
+    assert(xs.takeWhile(x => x <= 2).toList == List(1, 2))
+  }
 }
