@@ -12,4 +12,12 @@ class StreamSpec extends AnyFlatSpec {
   it should "toList" in {
     assert(xs.toList == List(1, 2, 3))
   }
+
+  it should "drop" in {
+    assert(xs.drop(2).toList == List(3))
+  }
+
+  it should "take" in {
+    assert(xs.take(2).toList == List(1, 2))
+  }
 }
