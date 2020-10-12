@@ -24,4 +24,8 @@ class StreamSpec extends AnyFlatSpec {
   it should "takeWhile" in {
     assert(xs.takeWhile(x => x <= 2).toList == List(1, 2))
   }
+
+  it should "forAll" in {
+    assert(!xs.forAll(_ != 1))
+  }
 }
