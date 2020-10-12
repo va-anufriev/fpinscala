@@ -32,4 +32,22 @@ class StreamSpec extends AnyFlatSpec {
   it should "takeWhileViaFold" in {
     assert(xs.takeWhileViaFold(x => x <= 2).toList == List(1, 2))
   }
+
+  it should "map" in {
+    assert(xs.map(x => x * x).toList == List(1, 4, 9))
+  }
+
+  it should "filter" in {
+    assert(xs.filter(_ >= 2).toList == List(2, 3))
+  }
+
+  it should "append" in {
+    assert(
+      Stream(1, 2, 3).append(Stream(4, 5, 6)).toList == (1 to 6).toList
+    )
+  }
+
+  it should "flatMap" in {
+    assert(xs.flatMap(x => Stream(x * x)).toList == List(1, 4, 9))
+  }
 }
