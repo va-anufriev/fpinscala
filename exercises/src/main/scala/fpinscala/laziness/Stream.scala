@@ -80,9 +80,11 @@ case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
 
 object Stream {
-  val ones: Stream[Int] = Stream.cons(1, ones)
+  val ones: Stream[Int] =
+    Stream.cons(1, ones)
 
-  def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+  def constant[A](a: A): Stream[A] =
+    Stream.cons(a, constant(a))
 
   def cons[A](hd: => A, tl: => Stream[A]): Stream[A] = {
     lazy val head = hd
@@ -96,7 +98,15 @@ object Stream {
     if (as.isEmpty) empty 
     else cons(as.head, apply(as.tail: _*))
 
-  def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
+  def from(n: Int): Stream[Int] =
+    Stream.cons(n, from(n + 1))
+
+  val fibs: Stream[Int] = {
+    def loop(f0: Int, f1: Int): Stream[Int] =
+      cons(f0, loop(f1, f0 + f1))
+
+    loop(0, 1)
+  }
 
   def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = ???
 }

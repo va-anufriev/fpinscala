@@ -92,4 +92,11 @@ class StreamSpec extends AnyFlatSpec {
       expected = (4 to 13).toList
     ))
   }
+
+  it should "fibs" in {
+    assert(eq[List, Int](
+      actual = Stream.fibs.take(5),
+      expected = List(0, 1, 1, 2, 3)
+    ))
+  }
 }
