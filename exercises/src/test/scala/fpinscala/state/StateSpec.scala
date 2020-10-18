@@ -20,4 +20,8 @@ class StateSpec extends AnyFlatSpec {
       }
     )
   }
+
+  it should "ints" in {
+    assert(RNG.ints(5)(rng)._1.toSet.size == 5)
+  }
 }
