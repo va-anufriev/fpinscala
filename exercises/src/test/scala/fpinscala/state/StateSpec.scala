@@ -12,4 +12,12 @@ class StateSpec extends AnyFlatSpec {
       }
     )
   }
+
+  it should "double" in {
+    assert(
+      RNG.double(rng) match {
+        case (value, _) => value >= 0.0 && value < 1.0
+      }
+    )
+  }
 }
